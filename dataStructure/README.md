@@ -63,8 +63,6 @@ const queue = new Queue();
 
 #### 함수 호출의 Call Stack
 
-내용과 동일함.
-
 #### 자바스크립트 구현
 
 ```js
