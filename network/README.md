@@ -292,3 +292,32 @@ HTTP에서 클라이언트의 상태 정보를 쿠키 형태로 클라이언트 
 세션의 내용은 서버에 저장되기 때문에 서버에 부하가 발생할 수 있고, 클라이언트의 브라우저에 저장되는 쿠키에 비해 비교적 속도가 느리다.
 
 ##### 고로 쿠키와 세션 둘 다 적재적소에 잘 사용하여야 서버의 부하를 줄이고 성능적으로도 손해를 보지 않을 수 있다.
+
+### 웹 소켓
+
+웹 소켓은 웹 브라우저와 웹 서버 간의 양방향 통신을 지원하는 프로토콜이다. HTTP 프로토콜의 단점 중 하나인 클라이언트에서 서버로 요청을 보내고 서버는 그에 대한 응답을 보내는 단방향 통신을 극복하기 위해 개발되었다. 웹소켓을 통해 실시간으로 데이터를 주고받으며, 서버 또는 클라이언트 측에서 데이터를 보낼 떄 지연 시간을 최소화하고 효율적인 양방향 통신을 구현할 수 있다.
+
+#### 연결 과정
+
+1. 브라우저에서 HTTP 통신을 이용해 서버에 소켓 통시닝 가능한지 요청을 보낸다. 이때 헤더에 소켓을 사용하기 위한 Upgrade, Connection, WebSocket에 대한 정보를 함께 전송한다.
+
+```
+GET /chat
+Host: https://localhost.chat
+Origin: https://localhost.chat
+Connection: Upgrade
+Upgrade: websocket
+Sec-WebSocket-Key: ...
+Sec-WebSocket-Version: 13
+```
+
+2. 서버에서 웹 소켓 통신이 가능하면 서버에서 웹 소켓 통신이 가능하다는 101 상태의 응답을 보낸다. 이때 서버에서는 클라이언트에서 받은 Sec-WebSocket-Key 키 값에 문자를 더한 뒤 그 값을 암호화하여 Sec-WebSocket-Accept로 클라이언트로 응답한다.
+
+```
+101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: ...
+```
+
+3. 이후에는 ws 혹은 wss 프로토콜을 이용해 양방향 통신을 진행한다.
