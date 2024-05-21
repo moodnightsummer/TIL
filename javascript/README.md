@@ -30,3 +30,29 @@ Javascript도 ES6에서 클래스 방식으로 동일한 개념이 생겼지만 
 
 - 다형성
   - 하나의 객체에 여러 타입을 대입할 수 있는 성질을 의미한다. 다형성을 구현하기 위해서는 오버로딩, 오버라이딩이 있다.
+
+### 클로저
+
+클로저는 함수가 선언되었을 때의 렉시컬 환경이다.
+
+```
+function outer() {
+  const name = 'jaeil';
+  outer() // jaeil 출력
+  console.log(name); // 에러 발생
+}
+// 위와 같은 코드에서는 outer가 종료되었기 때문에 name에 더 이상 접근할 수 없다.
+
+function outer() {
+    let count = 0;
+    return function () {
+        count++;
+        return count;
+    }
+}
+
+const getCount = outer();
+getCount();
+// 위와 같은 코드에서는 outer() 함수가 종료되었지만 클로저의 특성으로 outer 내의 return 되는 함수가 선언될 때 그 주변의 렉시컬 환경과 함께 번들로 묶였기 때문에 참조하지 않아도 선언할 때 이미 묶이게 된다. 그렇기 때문에 getCount 변수로 outer의 count에 접근할 수 있게 된다.
+
+```
